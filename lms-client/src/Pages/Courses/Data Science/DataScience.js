@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Brief from '../Help/Brief';
 import Prototyping from '../Help/Prototyping';
 import ReviewsSection from '../Help/ReviewsSection';
@@ -166,14 +166,18 @@ const DataScience = () => {
                 </div>
               </div>
               {/* Certificate */}
-              <div className="mt-3 flex justify-end">
-                <button
-                  onClick={handleCertificate}
-                  className="btn btn-sm btn-primary"
-                >
-                  Complete
-                </button>
-              </div>
+                 <div className="mt-3 flex justify-between">
+                             <Link to="/course/webQuiz" className="btn btn-sm btn-secondary">
+                               Start Exam
+                             </Link>
+                           
+                             <button
+                               onClick={handleCertificate}
+                               className="btn btn-sm btn-primary"
+                             >
+                               Complete
+                             </button>
+                           </div>
             </div>
           </div>
         </div>

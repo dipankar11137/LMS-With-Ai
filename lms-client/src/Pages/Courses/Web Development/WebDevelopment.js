@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Brief from '../Help/Brief';
 import Prototyping from '../Help/Prototyping';
 import ReviewsSection from '../Help/ReviewsSection';
@@ -92,10 +92,7 @@ const WebDevelopment = () => {
                 )}
                 <div className="bg-white">
                   {course === 'The Brief' && (
-                    <Brief
-                      course={'Web Development'}
-                      onDown={onDown}
-                    />
+                    <Brief course={'Web Development'} onDown={onDown} />
                   )}
                 </div>
               </div>
@@ -118,10 +115,7 @@ const WebDevelopment = () => {
                 )}
                 <div className="bg-white">
                   {course === 'Type, Color & Icon Introduction' && (
-                    <TCI
-                      course={'Web Development'}
-                      onDown={onDown}
-                    />
+                    <TCI course={'Web Development'} onDown={onDown} />
                   )}
                 </div>
               </div>
@@ -146,10 +140,7 @@ const WebDevelopment = () => {
                 )}
                 <div className="bg-white">
                   {course === 'Prototyping a App - Introduction' && (
-                    <Prototyping
-                      course={'Web Development'}
-                      onDown={onDown}
-                    />
+                    <Prototyping course={'Web Development'} onDown={onDown} />
                   )}
                 </div>
               </div>
@@ -180,7 +171,11 @@ const WebDevelopment = () => {
                 </div>
               </div>
               {/* Certificate */}
-              <div className="mt-3 flex justify-end">
+              <div className="mt-3 flex justify-between">
+                <Link to="/course/webQuiz" className="btn btn-sm btn-secondary">
+                  Start Exam
+                </Link>
+              
                 <button
                   onClick={handleCertificate}
                   className="btn btn-sm btn-primary"

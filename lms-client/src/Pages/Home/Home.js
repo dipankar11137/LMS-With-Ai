@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import { useLocation } from "react-router-dom";
 import Footer from "../Share/Footer";
@@ -27,10 +27,14 @@ const Home = ({ search, searchButton }) => {
     }
   }, [pathname, searchButton]);
 
+  const handleCourse = () => {
+    window.scrollTo({ top: 1600, behavior: 'smooth' });
+  }
+
 
   return (
     <div className="pt-10">
-      <LearnNewSkill />
+      <LearnNewSkill handleCourse={handleCourse} />
       <Wave />
       <Trusted />
       <TopCategories />

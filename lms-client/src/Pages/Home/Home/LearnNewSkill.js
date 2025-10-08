@@ -5,13 +5,13 @@ import { FaBookReader, FaIdCardAlt, FaStar } from 'react-icons/fa';
 import { FiYoutube } from 'react-icons/fi';
 import { GiBlackBelt } from 'react-icons/gi';
 import { PiGraduationCapLight } from 'react-icons/pi';
-import img1 from '../../../Images/Home/about/1.png';
-import img2 from '../../../Images/Home/about/2.png';
-import img3 from '../../../Images/Home/about/3.png';
+// import img1 from '../../../Images/Home/about/1.png';
+// import img2 from '../../../Images/Home/about/2.png';
+// import img3 from '../../../Images/Home/about/3.png';
 import bg from '../../../Images/Home/background/bg.png';
 import head from '../../../Images/Home/New/4.png';
 
-const LearnNewSkill = () => {
+const LearnNewSkill = ({ handleCourse }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = e => {
@@ -58,10 +58,10 @@ const LearnNewSkill = () => {
             </p>
           </div>
           <div className="">
-            <button className="btn btn-primary mr-7 mt-8 text-white px-10">
-              Join For Free
-            </button>
-            <button className="btn btn-secondary btn-outline px-10">
+            <button
+              onClick={handleCourse}
+              className="btn btn-secondary btn-outline px-10 mt-4 ml-5"
+            >
               Find Courses
             </button>
           </div>
@@ -92,21 +92,25 @@ const LearnNewSkill = () => {
               transform: `translate(${position.x}px, ${position.y}px)`,
             }}
           >
-            <img src={img1} alt="Image 1" />
+            <img
+              className="w-56 h-80 rounded-tr-[50px] rounded-lg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDH7rEEOJCn9z_P_k70u1O2BHn823GWSNzwQ&s"
+              alt="Image 1"
+            />
           </div>
 
           <div>
             <img
-              className="mb-8 transform transition-transform h-[260px]"
-              src={img2}
+              className="mb-8 transform transition-transform h-[260px] w-56 rounded-tr-[30px] rounded-l"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbUPLTXxptKGejuyNhRunH5CfZRmdrHYkjzw&s"
               alt="Image 2"
               style={{
                 transform: `translate(${-position.x}px, ${-position.y}px)`,
               }}
             />
             <img
-              className="transform transition-transform h-[260px]"
-              src={img3}
+              className="transform transition-transform h-[260px] w-56 rounded-tr-[30px] rounded-l"
+              src="https://www.wfpusa.org/wp-content/uploads/2025/06/WFP_NalifaMehelin_KK7A6611.jpg"
               alt="Image 3"
               style={{
                 transform: `translate(${position.y}px, ${-position.x}px)`,
@@ -115,7 +119,7 @@ const LearnNewSkill = () => {
           </div>
 
           {/* Card Sections */}
-          <div className="absolute right-28 top-40">
+          <div className="absolute right-28 top-48">
             <div className="transform transition-transform hover:scale-105 bg-white h-20 text-black px-5 py-2 rounded-lg shadow-lg">
               <div className="flex items-center gap-5">
                 <img

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { CiHospital1 } from 'react-icons/ci';
 import { FaBook, FaStar } from 'react-icons/fa';
@@ -14,6 +14,7 @@ import icon from '../../../../Images/category/icon.png';
 const RunningCourse = ({ search }) => {
   const [users] = useAuthState(auth);
   const [user, setUsers] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -31,8 +32,9 @@ const RunningCourse = ({ search }) => {
       img: img1,
       lessons: 9,
       duration: '22h',
-      price: 79,
-      originalPrice: 199,
+      price: 8100,
+      category: 'technology',
+      originalPrice: 19900,
       paymentHandler: id => navigator(`/webPayment/${id}`),
     },
     {
@@ -41,8 +43,9 @@ const RunningCourse = ({ search }) => {
       img: img2,
       lessons: 6,
       duration: '24h',
-      price: 89,
-      originalPrice: 199,
+      category: 'technology',
+      price: 8900,
+      originalPrice: 19900,
       paymentHandler: id => navigator(`/dataPayment/${id}`),
     },
     {
@@ -51,18 +54,20 @@ const RunningCourse = ({ search }) => {
       img: img3,
       lessons: 12,
       duration: '44h',
-      price: 99,
-      originalPrice: 199,
+      category: 'design',
+      price: 9900,
+      originalPrice: 19900,
       paymentHandler: id => navigator(`/graphicPayment/${id}`),
     },
     {
       id: 'mobile',
       title: 'Mobile App Development',
-      img: 'https://zonvoir.com/blog/wp-content/uploads/2018/12/mobile-apps.jpg',
+      img: 'https://static.vecteezy.com/system/resources/thumbnails/005/877/546/small_2x/app-development-modern-flat-concept-for-web-banner-design-male-designer-works-on-laptop-develops-usability-program-interface-and-places-menu-buttons-illustration-with-isolated-people-scene-vector.jpg',
       lessons: 18,
       duration: '56h',
-      price: 269,
-      originalPrice: 299,
+      category: 'technology',
+      price: 26900,
+      originalPrice: 29900,
       paymentHandler: id => navigator(`/mobilePayment/${id}`),
     },
     {
@@ -71,8 +76,9 @@ const RunningCourse = ({ search }) => {
       img: 'https://www.simplilearn.com/ice9/free_resources_article_thumb/What_is_digital_marketing.jpg',
       lessons: 17,
       duration: '64h',
-      price: 199,
-      originalPrice: 219,
+      category: 'marketing',
+      price: 19900,
+      originalPrice: 21900,
       paymentHandler: id => navigator(`/digitalPayment/${id}`),
     },
     {
@@ -81,33 +87,62 @@ const RunningCourse = ({ search }) => {
       img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4PtLKo4qRWiXiBqGwgkz2o4X-2KpzJZvbvg&s',
       lessons: 20,
       duration: '66h',
-      price: 119,
-      originalPrice: 200,
+      category: 'marketing',
+      price: 11900,
+      originalPrice: 20000,
       paymentHandler: id => navigator(`/financePayment/${id}`),
     },
   ];
 
-  // 🔍 **Filter courses based on search term**
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(search?.toLowerCase() || '')
-  );
+  // 🔍 Filter by category and search term
+  const filteredCourses = courses.filter(course => {
+    const matchCategory =
+      selectedCategory === 'all' || course.category === selectedCategory;
+    const matchSearch = course.title
+      .toLowerCase()
+      .includes(search?.toLowerCase() || '');
+    return matchCategory && matchSearch;
+  });
+
+  // All available unique categories
+  const categories = ['all', ...new Set(courses.map(c => c.category))];
 
   return (
     <div className="w-full md:mx-10 lg:mx-18">
+      {/* 🧭 Category Filter */}
+      <div className="flex flex-wrap gap-3 mb-6 justify-center">
+        {categories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
+              selectedCategory === cat
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-600 border-gray-300 hover:bg-indigo-50'
+            }`}
+          >
+            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
+      </div>
+
       {/* 🏫 Courses Grid */}
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {filteredCourses.length > 0 ? (
           filteredCourses.map(course => (
             <div key={course.id} className="bg-white p-4 rounded-md shadow-md">
               <div>
-                <img src={course.img} alt={course.title} className="w-full h-52 rounded-lg" />
+                <img
+                  src={course.img}
+                  alt={course.title}
+                  className="w-full h-52 rounded-lg object-cover"
+                />
               </div>
               <div>
                 <p className="flex items-center gap-2 mt-2">
                   4.3{' '}
                   <span className="text-yellow-600 text-xs flex items-center gap-1">
-                    <FaStar /> <FaStar />
-                    <FaStar /> <FaStar />
+                    <FaStar /> <FaStar /> <FaStar /> <FaStar />
                   </span>
                   (1990)
                 </p>
@@ -138,9 +173,9 @@ const RunningCourse = ({ search }) => {
                 <div>
                   <h1>
                     <span className="line-through">
-                      ${course.originalPrice}
+                      ৳{course.originalPrice}
                     </span>{' '}
-                    ${course.price}
+                    ৳{course.price}
                   </h1>
                 </div>
               </div>
@@ -183,15 +218,6 @@ export default RunningCourse;
 
 
 
-
-
-
-
-
-
-
-
-
 // import React, { useEffect, useState } from 'react';
 // import { FaStar } from 'react-icons/fa';
 // import {
@@ -217,7 +243,7 @@ export default RunningCourse;
 //   console.log(users)
 
 //    useEffect(() => {
-//      fetch(`http://localhost:5000/user/${users?.email}`)
+//      fetch(`http://localhost:5000/user/৳{users?.email}`)
 //        .then(res => res.json())
 //        .then(data => setUsers(data));
 //    }, [users, users?.email]);
