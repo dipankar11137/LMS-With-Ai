@@ -1,0 +1,107 @@
+.quiz {
+  text-align: center;
+}
+
+.question-card {
+  /* Center the div  */
+  margin: 0 auto;
+
+  /* Dimensions  */
+  width: 80%; /* Can be in percentage also. */
+  height: auto;
+
+  /* Visual  */
+  background-color: rgb(37, 18, 90);
+  padding: 16px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+}
+
+.ul1 {
+  list-style: none;
+}
+
+.li1 {
+  margin-top: 8px;
+  background-color: rgb(25, 21, 42);
+  padding: 16px;
+  border: 3px solid rgb(144, 170, 110);
+  border-radius: 20px;
+  font-size: 20px;
+}
+
+.question-text {
+  color: rgb(216, 216, 233);
+  font-size: 24px;
+}
+
+/* Final Results  */
+
+.final-results {
+  /* Center the div  */
+  margin: 0 auto;
+
+  /* Dimensions  */
+  width: 50%; /* Can be in percentage also. */
+  height: auto;
+  margin-top: 64px;
+
+  /* Visual  */
+  /* background-color: rgb(32, 32, 79); */
+  padding: 16px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+}
+
+.button1 {
+  background-color: red; /* Green */
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 24px;
+}
+
+/* pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-number {
+  background-color: #ac07c6;
+  border: none;
+  margin: 0 5px;
+  padding: 3px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.page-number.active {
+  background-color: #14f404;
+  color: rgb(26, 8, 8);
+  font-weight: 700;
+}
+
+.page-number:hover {
+  background-color: #80ff00;
+  color: rgb(17, 5, 5);
+}
+
+
+
+
+
+
+
+
