@@ -15,14 +15,9 @@ const AddQuestion = () => {
     reset,
   } = useForm();
 
-  const generateRandomId = () => {
-    // ✅ Modern secure random ID
-    if (window.crypto?.randomUUID) {
-      return crypto.randomUUID();
-    }
-    // ✅ Fallback for older browsers
-    return `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-  };
+ const generateRandomId = () => {
+   return Math.floor(Math.random() * 9999) + 1; // generates 1–9999
+ };
 
 
   const onSubmit = data => {
