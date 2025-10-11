@@ -27,6 +27,7 @@ async function run() {
     const reviewCollection = client.db('lms').collection('reviews');
     const quizSolutionCollection = client.db('lms').collection('quizSolve');
     const questionCollection = client.db('lms').collection('question');
+    const answerCollection = client.db('lms').collection('questionAnswer');
 
     // // // // // // // // // // // //
 
@@ -279,6 +280,17 @@ async function run() {
       const cursor = questionCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
+    });
+
+    app.post('/questionAnswer', async (req, res) => {
+      const result = await answerCollection.insertOne(req.body)
+      res.send(result);
+    });
+    app.get('/questionAnswer', async (req, res) => {
+      const query = {};
+      const cursor = answerCollection.find(query);
+      const users = await cursor.toArray();
+      res.send(users);
     });
     //
   } finally {
