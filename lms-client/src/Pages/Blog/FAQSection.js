@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { useLocation } from 'react-router-dom';
 import Footer from '../Share/Footer';
@@ -16,9 +16,9 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: 'What is Educrat?',
+      question: 'What is HandiLearn?',
       answer:
-        'Educrat is an online platform offering educational courses designed to enhance your skills in various fields.',
+        'HandiLearn is an online platform offering educational courses designed to enhance your skills in various fields.',
     },
     {
       question: 'How do I enroll in a course?',

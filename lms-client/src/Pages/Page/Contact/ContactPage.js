@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from '../../Share/Footer';
 
@@ -15,7 +15,8 @@ const ContactPage = () => {
           {/* Left Content */}
           <div className="lg:w-1/2">
             <h1 className="text-4xl font-bold text-gray-800 leading-snug mb-6">
-              Get in Touch with <span className="text-blue-600">EduCenter</span>
+              Get in Touch with{' '}
+              <span className="text-blue-600">HandiLearn</span>
             </h1>
             <p className="text-gray-600 text-lg mb-6 leading-relaxed">
               Have questions or need more information about our courses? Fill
@@ -134,7 +135,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

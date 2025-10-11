@@ -1,9 +1,9 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { MdCastForEducation } from 'react-icons/md';
 import auth from '../../../firebase.init';
-import logo from '../../../Images/Logo/logo-dark.svg';
 
 const Certificate = () => {
   const [users] = useAuthState(auth);
@@ -39,7 +39,11 @@ const Certificate = () => {
         {/* Header with Logo and QR Code */}
         <div className="flex justify-between items-center">
           <div className="text-green-600 text-2xl font-bold">
-            <img src={logo} alt="W3Schools Logo" />
+            {/* <img src={logo} alt="W3Schools Logo" /> */}
+            <div className="flex  items-center">
+              <MdCastForEducation className="h-14 p-2  w-full rounded-full" />
+              <h1>HandiLearn</h1>
+            </div>
           </div>
           {/* QR Code */}
           <div className="w-20 h-20 border border-gray-300 p-2">

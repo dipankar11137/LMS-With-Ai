@@ -16,7 +16,7 @@ const About = () => {
           {/* Left Content */}
           <div className="lg:w-1/2">
             <h1 className="text-4xl font-bold text-gray-800 leading-snug mb-6">
-              Welcome to <span className="text-blue-600">EduCenter</span>
+              Welcome to <span className="text-blue-600">HandiLearn</span>
             </h1>
             <p className="text-gray-600 text-lg mb-6 leading-relaxed">
               At EduCenter, we provide high-quality education with a focus on
@@ -101,7 +101,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

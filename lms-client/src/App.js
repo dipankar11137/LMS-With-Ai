@@ -30,6 +30,11 @@ import DashboardIndex from "./Pages/Dashboard/Dashboard Initial/DashboardIndex";
 import Scores from "./Pages/Dashboard/Quiz Score/Scores";
 import Users from "./Pages/Dashboard/User/Users";
 import EventOne from "./Pages/Event/EventOne";
+import DataScienceQuestion from "./Pages/Exam Question/DataScienceQuestion";
+import DigitalMarketingQuestion from "./Pages/Exam Question/DigitalMarketingQuestion";
+import FinanceAccountingQuestion from "./Pages/Exam Question/FinanceAccountingQuestion";
+import GraphicDesignQuestion from "./Pages/Exam Question/GraphicDesignQuestion";
+import MobileAppDevelopmentQuestion from "./Pages/Exam Question/MobileAppDevelopmentQuestion";
 import WebDevelopmentQuestion from "./Pages/Exam Question/WebDevelopment/WebDevelopmentQuestion";
 import DataPayment from "./Pages/Home/Home/Payment/DataPayment";
 import DigitalPayment from "./Pages/Home/Home/Payment/DigitalPayment";
@@ -86,6 +91,27 @@ function App() {
           path="/course/webQuiz"
           element={<WebDevelopmentQuestion />}
         ></Route>
+        <Route
+          path="/course/dataQuiz"
+          element={<DataScienceQuestion />}
+        ></Route>
+        <Route
+          path="/course/graphicQuiz"
+          element={<GraphicDesignQuestion />}
+        ></Route>
+        <Route
+          path="/course/mobileQuiz"
+          element={<MobileAppDevelopmentQuestion />}
+        ></Route>
+        <Route
+          path="/course/digitalQuiz"
+          element={<DigitalMarketingQuestion />}
+        ></Route>
+        <Route
+          path="/course/financeQuiz"
+          element={<FinanceAccountingQuestion />}
+        ></Route>
+        
         {/* <Route
           path="/course/graphicQuiz"
           element={<GraphicDesignQuiz />}

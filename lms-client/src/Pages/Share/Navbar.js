@@ -102,7 +102,7 @@ const Navbar = ({ searchButton, setSearchButton, setSearch }) => {
 
         <div>
           <li className="px-4 ml-3 text-xl font-semibold text-accent underline py-1">
-            Exam Question
+            Self Assessment Test
           </li>
           {user[0]?.webPayment && (
             <li className="px-4 py-1">
@@ -112,37 +112,37 @@ const Navbar = ({ searchButton, setSearchButton, setSearch }) => {
 
           {user[0]?.dataPayment && (
             <li className="px-4 py-1">
-              <Link to="/course/webQuiz">Data Science</Link>
+              <Link to="/course/dataQuiz">Data Science</Link>
             </li>
           )}
           {user[0]?.graphicPayment && (
             <li className="px-4 py-1">
-              <Link to="/course/webQuiz">Graphic Design </Link>
+              <Link to="/course/graphicQuiz">Graphic Design </Link>
             </li>
           )}
           {user[0]?.mobilePayment && (
             <li className="px-4 py-1">
-              <Link to="/course/webQuiz">Mobile App Developer</Link>
+              <Link to="/course/mobileQuiz">Mobile App Developer</Link>
             </li>
           )}
           {user[0]?.digitalPayment && (
             <li className="px-4 py-1">
-              <Link to="/course/webQuiz">Digital Marketing</Link>
+              <Link to="/course/digitalQuiz">Digital Marketing</Link>
             </li>
           )}
           {user[0]?.financePayment && (
             <li className="px-4 py-1">
-              <Link to="/course/webQuiz">Finance & Accounting</Link>
+              <Link to="/course/financeQuiz">Finance & Accounting</Link>
             </li>
           )}
         </div>
       </div>
 
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <li className="px-4 my-2 text-center font-bold  btn btn-outline btn-primary w-36 text-white">
           <Link to="/course/quizScore">Quiz Score</Link>
         </li>
-      </div>
+      </div> */}
     </ul>
   );
 
