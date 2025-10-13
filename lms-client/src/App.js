@@ -28,6 +28,7 @@ import AllClass from "./Pages/Dashboard/All Class/AllClass";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import DashboardIndex from "./Pages/Dashboard/Dashboard Initial/DashboardIndex";
 import Scores from "./Pages/Dashboard/Quiz Score/Scores";
+import ShowQuestion from "./Pages/Dashboard/Show Question/ShowQuestion";
 import Users from "./Pages/Dashboard/User/Users";
 import EventOne from "./Pages/Event/EventOne";
 import DataScienceQuestion from "./Pages/Exam Question/DataScienceQuestion";
@@ -76,6 +77,7 @@ function App() {
         <Route path="/event" element={<EventOne />}></Route>
         <Route path="/lesson" element={<LessonList />}></Route>
         <Route path="/course" element={<CoursePage />}></Route>
+        <Route path="/showQuestion/:id" element={<ShowQuestion />}></Route>
         <Route
           path="/course/webDevelopment"
           element={<WebDevelopment />}

@@ -1,6 +1,7 @@
 import { Camera, Check, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 import Tesseract from 'tesseract.js';
 import auth from '../../../firebase.init';
 
@@ -15,6 +16,7 @@ const Question = ({subject}) => {
   const IMGBB_API_KEY = '6dac5f267258577b002096908801c2d1';
   const [users] = useAuthState(auth);
   const [user, setUsers] = useState([]);
+  const navigator=useNavigate()
 
     useEffect(() => {
       fetch(`http://localhost:5000/user/${users?.email}`)
@@ -148,6 +150,7 @@ const Question = ({subject}) => {
 
   // ✅ Handle submission
   const handleSubmit = async () => {
+      navigator('/')
     if (Object.keys(uploads).length === 0)
       return alert('Please answer at least one question.');
 
@@ -216,7 +219,7 @@ const Question = ({subject}) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateQuestionAndAnswers),
       });
-      alert('✅ Answers evaluated successfully!');
+      alert('✅  Successfully Submit Your Answers.');
     } catch (error) {
       console.error('❌ Evaluation failed:', error);
       alert('❌ Failed to evaluate answers.');

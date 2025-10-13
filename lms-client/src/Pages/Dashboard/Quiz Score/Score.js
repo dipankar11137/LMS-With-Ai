@@ -1,6 +1,15 @@
-import React from 'react';
 
-const Score = ({ result, index, user, handleRemove }) => {
+
+const Score = ({
+  result,
+  index,
+  user,
+  handleRemove,
+  handleQuestion,
+  handleCheck,
+  handleMarksChange,
+  marks,
+}) => {
   return (
     <>
       {index === 1 ? (
@@ -12,25 +21,53 @@ const Score = ({ result, index, user, handleRemove }) => {
             {result?.name}
           </td>
           <td className="border-b-[1px] border-slate-500 bg-slate-800">
-            {result?.date}
+            {result?.totalQuestionMark}
           </td>
           <td className="border-b-[1px] border-slate-500 bg-slate-800">
-            {result?.time}
+            {/* {result?.totalMarks} */}
+            <div className="flex items-center gap-2">
+              <span>{result.questionTitle}</span>
+              <input
+                type="number"
+                value={marks}
+                min={0}
+                max={result.maxMarks}
+                onChange={handleMarksChange}
+                className="border p-1 w-16 text-center"
+              />
+              <span> / {result.maxMarks}</span>
+            </div>
+          </td>
+
+          <td className="border-b-[1px] border-slate-500 bg-slate-800">
+            {result?.totalMarks
+              ? ((result.totalMarks / result.totalQuestionMark) * 100).toFixed(
+                  2
+                )
+              : 0}{' '}
+            %
           </td>
           <td className="border-b-[1px] border-slate-500 bg-slate-800">
-            {result?.questions}
+            <button
+              onClick={() => handleQuestion(result._id)}
+              className="btn btn-xs btn-primary"
+            >
+              Question
+            </button>
           </td>
           <td className="border-b-[1px] border-slate-500 bg-slate-800">
-            {result?.correctAnswer}
-          </td>
-          <td className="border-b-[1px] border-slate-500 bg-slate-800">
-            {result?.percent} %
+            <button
+              onClick={() => handleCheck(result._id)}
+              className="btn btn-xs btn-secondary"
+            >
+              Done
+            </button>
           </td>
           {user?.email === 'abc@def.com' && (
             <td className="border-b-[1px] border-slate-500 bg-slate-800">
               <button
                 onClick={() => handleRemove(result._id)}
-                className="btn btn-xs btn-primary"
+                className="btn btn-xs btn-accent"
               >
                 Remove
               </button>
@@ -41,22 +78,42 @@ const Score = ({ result, index, user, handleRemove }) => {
         <tr className="border-[1px] border-slate-500  text-slate-800">
           <th className="border-b-[1px] border-slate-500">{index}</th>
           <td className="border-b-[1px] border-slate-500">{result?.name}</td>
-          <td className="border-b-[1px] border-slate-500">{result?.date}</td>
-          <td className="border-b-[1px] border-slate-500">{result?.time}</td>
           <td className="border-b-[1px] border-slate-500">
-            {result?.questions}
+            {result?.totalQuestionMark}
           </td>
           <td className="border-b-[1px] border-slate-500">
-            {result?.correctAnswer}
+            {result?.totalMarks}
           </td>
+
           <td className="border-b-[1px] border-slate-500">
-            {result?.percent} %
+            {result?.totalMarks
+              ? ((result.totalMarks / result.totalQuestionMark) * 100).toFixed(
+                  2
+                )
+              : 0}{' '}
+            %
+          </td>
+          <td className="border-b-[1px] border-slate-500 ">
+            <button
+              onClick={() => handleQuestion(result._id)}
+              className="btn btn-xs btn-primary"
+            >
+              Question
+            </button>
+          </td>
+          <td className="border-b-[1px] border-slate-500 ">
+            <button
+              onClick={() => handleCheck(result._id)}
+              className="btn btn-xs btn-secondary"
+            >
+              Done
+            </button>
           </td>
           {user?.email === 'abc@def.com' && (
             <td className="border-b-[1px] border-slate-500 ">
               <button
                 onClick={() => handleRemove(result._id)}
-                className="btn btn-xs btn-primary"
+                className="btn btn-xs btn-accent"
               >
                 Remove
               </button>
