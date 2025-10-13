@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+
 require('dotenv').config();
 
 const app = express();
@@ -292,6 +293,84 @@ async function run() {
       const users = await cursor.toArray();
       res.send(users);
     });
+    // question filter by question
+   app.get('/questionAnswersCourse/:subject', async (req, res) => {
+     const subject = req.params.subject; // ✅ fixed
+     const query = { subject };
+     const cursor = answerCollection.find(query);
+     const result = await cursor.toArray();
+     res.send(result);
+
+     //  answer filter by id
+// app.get('/questionAnswersCourseId/:id', async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const query = { _id: new ObjectId(id) };
+//     const result = await answerCollection.findOne(query);
+//     if (!result) {
+//       return res.status(404).send({ error: 'Answer not found' });
+//     }
+//     res.send(result);
+//   } catch (error) {
+//     console.error('Error fetching answer by course ID:', error);
+//     res.status(500).send({ error: 'Failed to fetch data' });
+//   }
+     // });
+       app.get('/classIds/:id', async (req, res) => {
+         try {
+           const id = req.params.id;
+           const query = { _id: new ObjectId(id) }; // Ensure `ObjectId` is properly imported
+           const result = await answerCollection.findOne(query); // Use `findOne` for a single document
+           if (result) {
+             res.status(200).send(result);
+           } else {
+             res.status(404).send({ message: 'Booking not found' });
+           }
+         } catch (error) {
+           console.error('Error fetching booking by ID:', error);
+           res.status(500).send({ message: 'Internal Server Error' });
+         }
+       });
+     //  update marks
+     app.put('/updateQuestionMarks/:id', async (req, res) => {
+       try {
+         const docId = req.params.id; // _id of the student document
+         const { questionId, marks } = req.body;
+
+         // Fetch the document
+         const doc = await answerCollection.findOne({
+           _id: new ObjectId(docId),
+         });
+         if (!doc) return res.status(404).send({ error: 'Document not found' });
+
+         // Update marks for the specific question
+         let totalMarks = 0;
+         const updatedResults = doc.results.map(q => {
+           if (q.questionId === questionId) {
+             q.marksGiven = marks;
+           }
+           totalMarks += q.marksGiven; // recalculate total marks
+           return q;
+         });
+
+         // Update in DB
+         const update = { $set: { results: updatedResults, totalMarks } };
+         await answerCollection.updateOne({ _id: new ObjectId(docId) }, update);
+
+         res.send({ success: true, totalMarks });
+       } catch (err) {
+         console.error(err);
+         res.status(500).send({ error: 'Failed to update marks' });
+       }
+     });
+     // Delete one question
+     app.delete('/questionAnswersCourses/:id', async (req, res) => {
+       const id = req.params.id;
+       const query = { _id: ObjectId(id) };
+       const result = await answerCollection.deleteOne(query);
+       res.send(result);
+     });
+   });
     //
   } finally {
   }
