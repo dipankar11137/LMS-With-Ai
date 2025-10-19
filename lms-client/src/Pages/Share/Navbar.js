@@ -138,11 +138,11 @@ const Navbar = ({ searchButton, setSearchButton, setSearch }) => {
         </div>
       </div>
 
-      {/* <div className="flex justify-center">
+      <div className="flex justify-center">
         <li className="px-4 my-2 text-center font-bold  btn btn-outline btn-primary w-36 text-white">
-          <Link to="/course/quizScore">Quiz Score</Link>
+          <Link to="/studentScore"> Score</Link>
         </li>
-      </div> */}
+      </div>
     </ul>
   );
 

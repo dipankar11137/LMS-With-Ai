@@ -46,6 +46,7 @@ import WebPayment from "./Pages/Home/Home/Payment/WebPayment";
 import RequireAuth from "./Pages/Login/RequireAUth";
 import About from "./Pages/Page/About/About";
 import ContactPage from "./Pages/Page/Contact/ContactPage";
+import StudentScores from "./Pages/Student Score/StudentScores";
 // ..
 AOS.init();
 
@@ -77,6 +78,7 @@ function App() {
         <Route path="/event" element={<EventOne />}></Route>
         <Route path="/lesson" element={<LessonList />}></Route>
         <Route path="/course" element={<CoursePage />}></Route>
+        <Route path="/studentScore" element={<StudentScores />}></Route>
         <Route path="/showQuestion/:id" element={<ShowQuestion />}></Route>
         <Route
           path="/course/webDevelopment"
