@@ -302,19 +302,28 @@ async function run() {
      res.send(result);
 
      //  answer filter by id
-// app.get('/questionAnswersCourseId/:id', async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const query = { _id: new ObjectId(id) };
-//     const result = await answerCollection.findOne(query);
-//     if (!result) {
-//       return res.status(404).send({ error: 'Answer not found' });
-//     }
-//     res.send(result);
-//   } catch (error) {
-//     console.error('Error fetching answer by course ID:', error);
-//     res.status(500).send({ error: 'Failed to fetch data' });
-//   }
+app.get('/questionAnswersCourseId/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).send({ error: 'Invalid ID format' });
+    }
+
+    const query = { _id: new ObjectId(id) };
+    const result = await answerCollection.findOne(query);
+
+    if (!result) {
+      return res.status(404).send({ error: 'Answer not found' });
+    }
+
+    res.send(result);
+  } catch (error) {
+    console.error('Error fetching answer by course ID:', error);
+    res.status(500).send({ error: 'Failed to fetch data' });
+  }
+});
      // });
        app.get('/classIds/:id', async (req, res) => {
          try {
@@ -332,37 +341,56 @@ async function run() {
          }
        });
      //  update marks
-     app.put('/updateQuestionMarks/:id', async (req, res) => {
+     app.put('/updateMark/:id', async (req, res) => {
        try {
-         const docId = req.params.id; // _id of the student document
-         const { questionId, marks } = req.body;
-
-         // Fetch the document
-         const doc = await answerCollection.findOne({
-           _id: new ObjectId(docId),
-         });
-         if (!doc) return res.status(404).send({ error: 'Document not found' });
-
-         // Update marks for the specific question
-         let totalMarks = 0;
-         const updatedResults = doc.results.map(q => {
-           if (q.questionId === questionId) {
-             q.marksGiven = marks;
-           }
-           totalMarks += q.marksGiven; // recalculate total marks
-           return q;
-         });
-
-         // Update in DB
-         const update = { $set: { results: updatedResults, totalMarks } };
-         await answerCollection.updateOne({ _id: new ObjectId(docId) }, update);
-
-         res.send({ success: true, totalMarks });
-       } catch (err) {
-         console.error(err);
-         res.status(500).send({ error: 'Failed to update marks' });
+         const id = req.params.id;
+         const { totalMarks } = req.body;
+         const query = { _id: new ObjectId(id) };
+         const updateDoc = {
+           $set: { totalMarks: totalMarks },
+         };
+         const result = await answerCollection.updateOne(query, updateDoc);
+         res.send(result);
+       } catch (error) {
+         console.error(error);
+         res.status(500).send({ message: 'Server error', error });
        }
      });
+    //  recheck
+     app.put('/reCheck/:id', async (req, res) => {
+       try {
+         const id = req.params.id;
+         const { reCheck } = req.body;
+         const query = { _id: new ObjectId(id) };
+         const updateDoc = {
+           $set: { reCheck: reCheck },
+         };
+         const result = await answerCollection.updateOne(query, updateDoc);
+         res.send(result);
+       } catch (error) {
+         console.error(error);
+         res.status(500).send({ message: 'Server error', error });
+       }
+     });
+
+    //  requested
+     app.put('/requested/:id', async (req, res) => {
+       try {
+         const id = req.params.id;
+         const { requested } = req.body;
+         const query = { _id: new ObjectId(id) };
+         const updateDoc = {
+           $set: { requested: requested },
+         };
+         const result = await answerCollection.updateOne(query, updateDoc);
+         res.send(result);
+       } catch (error) {
+         console.error(error);
+         res.status(500).send({ message: 'Server error', error });
+       }
+     });
+      
+
      // Delete one question
      app.delete('/questionAnswersCourses/:id', async (req, res) => {
        const id = req.params.id;
