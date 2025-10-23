@@ -284,7 +284,7 @@ async function run() {
     });
 
     app.post('/questionAnswer', async (req, res) => {
-      const result = await answerCollection.insertOne(req.body)
+      const result = await answerCollection.insertOne(req.body);
       res.send(result);
     });
     app.get('/questionAnswer', async (req, res) => {
@@ -294,111 +294,169 @@ async function run() {
       res.send(users);
     });
     // question filter by question
-   app.get('/questionAnswersCourse/:subject', async (req, res) => {
-     const subject = req.params.subject; // ✅ fixed
-     const query = { subject };
-     const cursor = answerCollection.find(query);
-     const result = await cursor.toArray();
-     res.send(result);
+    app.get('/questionAnswersCourse/:subject', async (req, res) => {
+      const subject = req.params.subject; // ✅ fixed
+      const query = { subject };
+      const cursor = answerCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
-     //  answer filter by id
-app.get('/questionAnswersCourseId/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
+    //  answer filter by id
+    app.get('/questionAnswersCourseId/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
 
-    // Validate ObjectId
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).send({ error: 'Invalid ID format' });
-    }
+        // Validate ObjectId
+        if (!ObjectId.isValid(id)) {
+          return res.status(400).send({ error: 'Invalid ID format' });
+        }
 
-    const query = { _id: new ObjectId(id) };
-    const result = await answerCollection.findOne(query);
+        const query = { _id: new ObjectId(id) };
+        const result = await answerCollection.findOne(query);
 
-    if (!result) {
-      return res.status(404).send({ error: 'Answer not found' });
-    }
+        if (!result) {
+          return res.status(404).send({ error: 'Answer not found' });
+        }
 
-    res.send(result);
-  } catch (error) {
-    console.error('Error fetching answer by course ID:', error);
-    res.status(500).send({ error: 'Failed to fetch data' });
-  }
-});
-     // });
-       app.get('/classIds/:id', async (req, res) => {
-         try {
-           const id = req.params.id;
-           const query = { _id: new ObjectId(id) }; // Ensure `ObjectId` is properly imported
-           const result = await answerCollection.findOne(query); // Use `findOne` for a single document
-           if (result) {
-             res.status(200).send(result);
-           } else {
-             res.status(404).send({ message: 'Booking not found' });
-           }
-         } catch (error) {
-           console.error('Error fetching booking by ID:', error);
-           res.status(500).send({ message: 'Internal Server Error' });
-         }
-       });
-     //  update marks
-     app.put('/updateMark/:id', async (req, res) => {
-       try {
-         const id = req.params.id;
-         const { totalMarks } = req.body;
-         const query = { _id: new ObjectId(id) };
-         const updateDoc = {
-           $set: { totalMarks: totalMarks },
-         };
-         const result = await answerCollection.updateOne(query, updateDoc);
-         res.send(result);
-       } catch (error) {
-         console.error(error);
-         res.status(500).send({ message: 'Server error', error });
-       }
-     });
+        res.send(result);
+      } catch (error) {
+        console.error('Error fetching answer by course ID:', error);
+        res.status(500).send({ error: 'Failed to fetch data' });
+      }
+    });
+    // });
+    app.get('/classIds/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }; // Ensure `ObjectId` is properly imported
+        const result = await answerCollection.findOne(query); // Use `findOne` for a single document
+        if (result) {
+          res.status(200).send(result);
+        } else {
+          res.status(404).send({ message: 'Booking not found' });
+        }
+      } catch (error) {
+        console.error('Error fetching booking by ID:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+      }
+    });
+    //  update marks
+    app.put('/updateMark/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const { totalMarks } = req.body;
+        const query = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: { totalMarks: totalMarks },
+        };
+        const result = await answerCollection.updateOne(query, updateDoc);
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Server error', error });
+      }
+    });
     //  recheck
-     app.put('/reCheck/:id', async (req, res) => {
-       try {
-         const id = req.params.id;
-         const { reCheck } = req.body;
-         const query = { _id: new ObjectId(id) };
-         const updateDoc = {
-           $set: { reCheck: reCheck },
-         };
-         const result = await answerCollection.updateOne(query, updateDoc);
-         res.send(result);
-       } catch (error) {
-         console.error(error);
-         res.status(500).send({ message: 'Server error', error });
-       }
-     });
+    app.put('/reCheck/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const { reCheck } = req.body;
+        const query = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: { reCheck: reCheck },
+        };
+        const result = await answerCollection.updateOne(query, updateDoc);
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Server error', error });
+      }
+    });
 
     //  requested
-     app.put('/requested/:id', async (req, res) => {
-       try {
-         const id = req.params.id;
-         const { requested } = req.body;
-         const query = { _id: new ObjectId(id) };
-         const updateDoc = {
-           $set: { requested: requested },
-         };
-         const result = await answerCollection.updateOne(query, updateDoc);
-         res.send(result);
-       } catch (error) {
-         console.error(error);
-         res.status(500).send({ message: 'Server error', error });
-       }
-     });
-      
+    app.put('/requested/:id', async (req, res) => {
+      try {
+        const id = req.params.id;
+        const { requested } = req.body;
+        const query = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: { requested: requested },
+        };
+        const result = await answerCollection.updateOne(query, updateDoc);
+        res.send(result);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Server error', error });
+      }
+    });
 
-     // Delete one question
-     app.delete('/questionAnswersCourses/:id', async (req, res) => {
-       const id = req.params.id;
-       const query = { _id: ObjectId(id) };
-       const result = await answerCollection.deleteOne(query);
-       res.send(result);
-     });
-   });
+    // Delete one question
+    app.delete('/questionAnswersCourses/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await answerCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    //  watch video click
+    // PUT /updateWatched/:email
+    app.put('/updateWatched/:email', async (req, res) => {
+      const email = req.params.email;
+      const { videoId } = req.body;
+
+      try {
+        const user = await userCollection.findOne({ email });
+        if (!user) {
+          await userCollection.insertOne({ email, watchedVideos: [videoId] });
+          return res.send({ message: 'User created and video added' });
+        }
+
+        const watched = user.watchedVideos || [];
+        if (!watched.includes(videoId)) watched.push(videoId);
+
+        await userCollection.updateOne(
+          { email },
+          { $set: { watchedVideos: watched } }
+        );
+
+        res.send({ message: 'Watched video updated', watchedVideos: watched });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Update failed' });
+      }
+    });
+
+    app.get('/user/:email', async (req, res) => {
+      const email = req.params.email;
+      const result = await userCollection.findOne({ email });
+      res.send(result);
+    });
+
+    // the brif
+    app.put('/updateWatched/:email', async (req, res) => {
+      const email = req.params.email;
+      const { videoId } = req.body;
+
+      if (!email || !videoId)
+        return res.status(400).send({ error: 'Missing email or videoId' });
+
+      try {
+        const result = await userCollection.findOneAndUpdate(
+          { email },
+          { $addToSet: { watchedVideos: videoId } },
+          { upsert: true, returnDocument: 'after' }
+        );
+        res.send(result.value);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Update failed' });
+      }
+    });
+
+   
+
+
     //
   } finally {
   }
