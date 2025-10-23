@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import DashboardFooter from '../DashboarFooter/DashboardFooter';
 
@@ -42,7 +42,7 @@ const AllClass = () => {
               </tr>
             </thead>
             <tbody>
-              {classes.map(classItem => (
+              {classes.slice().reverse().map(classItem => (
                 <tr key={classItem._id} className="text-center">
                   <td className="border border-gray-300 p-2">
                     {classItem.classNames}

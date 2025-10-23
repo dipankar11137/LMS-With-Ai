@@ -46,6 +46,7 @@ import WebPayment from "./Pages/Home/Home/Payment/WebPayment";
 import RequireAuth from "./Pages/Login/RequireAUth";
 import About from "./Pages/Page/About/About";
 import ContactPage from "./Pages/Page/Contact/ContactPage";
+import DataScienceQuiz from "./Pages/Quiz/DataScienceQuiz";
 import StudentScores from "./Pages/Student Score/StudentScores";
 // ..
 AOS.init();
@@ -115,7 +116,8 @@ function App() {
           path="/course/financeQuiz"
           element={<FinanceAccountingQuestion />}
         ></Route>
-        
+        <Route path="/dataQuiz" element={<DataScienceQuiz />}></Route>
+
         {/* <Route
           path="/course/graphicQuiz"
           element={<GraphicDesignQuiz />}

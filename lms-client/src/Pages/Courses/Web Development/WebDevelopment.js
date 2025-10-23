@@ -38,13 +38,13 @@ const WebDevelopment = () => {
                 Web Development
               </h1>
             </div>
-            <div className="pb-5">
+            {/* <div className="pb-5">
               <input
                 type="text"
                 placeholder="Search"
                 className="px-4 py-3 bg-white w-full  border-b text-gray-800 font-medium  rounded-lg"
               />
-            </div>
+            </div> */}
             {/* course */}
             <div>
               {/* Course Content */}

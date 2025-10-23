@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 // import useUser from '../../hooks/useUser';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
@@ -157,7 +157,7 @@ const DataScienceQuiz = () => {
           <div className="bg-neutral text-slate-300 p-10 text-2xl rounded-lg shadow-xl mt-20">
             <h1>Your Score : {result} </h1>
             <h1>Name : {user?.name}</h1>
-            <h1>Course : Data Science</h1>
+            <h1>Course : Free Quiz</h1>
             <div className="mt-7 text-sm underline text-end text-secondary">
               <Link to="/">Go to Home</Link>
             </div>
@@ -168,7 +168,7 @@ const DataScienceQuiz = () => {
       {open && (
         <div className="question-card">
           <div className="mb-3 text-3xl ">
-            <h1>Data Science Quiz </h1>
+            <h1>Free  Quiz </h1>
             {/* <h2>Score: {score}</h2> */}
           </div>
           <div className=" flex justify-between text-start mb-5">

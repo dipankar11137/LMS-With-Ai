@@ -133,9 +133,8 @@ const StudentScores = () => {
               <th>Full Marks</th>
               <th>Marks Given</th>
               <th>Percent</th>
-              {/* <th>Question</th> */}
-              {user?.email === 'abc@def.com' && <th>ReCheck</th>}
-              {user?.email === 'abc@def.com' && <th>Remove</th>}
+              <th>ReCheck</th>
+               <th>Remove</th>
             </tr>
           </thead>
           <tbody>

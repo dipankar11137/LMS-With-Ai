@@ -1,6 +1,6 @@
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBookReader, FaIdCardAlt, FaStar } from 'react-icons/fa';
 import { FiYoutube } from 'react-icons/fi';
 import { GiBlackBelt } from 'react-icons/gi';
@@ -8,11 +8,14 @@ import { PiGraduationCapLight } from 'react-icons/pi';
 // import img1 from '../../../Images/Home/about/1.png';
 // import img2 from '../../../Images/Home/about/2.png';
 // import img3 from '../../../Images/Home/about/3.png';
+import { useNavigate } from 'react-router-dom';
 import bg from '../../../Images/Home/background/bg.png';
 import head from '../../../Images/Home/New/4.png';
 
-const LearnNewSkill = ({ handleCourse }) => {
+const LearnNewSkill = ({ handleCourse,  }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [users, setUsers] = useState([]);
+  const navigator = useNavigate();
 
   const handleMouseMove = e => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -25,7 +28,15 @@ const LearnNewSkill = ({ handleCourse }) => {
 
     setPosition({ x: normalizedX, y: normalizedY });
   };
+  useEffect(() => {
+    fetch(`http://localhost:5000/users`)
+      .then(res => res.json())
+      .then(data => setUsers(data));
+  }, [users]);
 
+  const handleQuiz = () => {
+    navigator('/dataQuiz');
+  };
   return (
     <div
       style={{
@@ -64,19 +75,25 @@ const LearnNewSkill = ({ handleCourse }) => {
             >
               Find Courses
             </button>
+            <button
+              onClick={handleQuiz}
+              className="btn btn-warning btn-outline px-10 mt-4 ml-5"
+            >
+              Free Quiz
+            </button>
           </div>
           <div className="grid grid-cols-2 mt-32">
             <div className="flex items-center gap-2">
               <PiGraduationCapLight className="text-xl" />
-              <p>Over 12 million students</p>
+              <p>Over {users.length} students</p>
             </div>
             <div className="flex items-center gap-2">
               <FiYoutube className="text-xl" />
-              <p>More than 60,000 courses</p>
+              <p>More than 12 courses</p>
             </div>
             <div className="flex items-center gap-2 mt-3">
               <FaBookReader className="text-xl" />
-              <p>More than 60,000 courses</p>
+              <p>More than 12 courses</p>
             </div>
           </div>
         </div>
@@ -145,8 +162,8 @@ const LearnNewSkill = ({ handleCourse }) => {
                   <FaIdCardAlt className="text-2xl text-red-700 " />
                 </div>
                 <div>
-                  <h2 className="text-lg text-yellow-700">3.000 +</h2>
-                  <p className="text-sm text-gray-500">Free Courses</p>
+                  <h2 className="text-lg text-yellow-700">+</h2>
+                  <p className="text-sm text-gray-500">Free Quiz</p>
                 </div>
               </div>
             </div>

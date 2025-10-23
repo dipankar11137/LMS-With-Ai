@@ -1,96 +1,157 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { FaPlayCircle, FaTimes } from 'react-icons/fa';
+import auth from '../../../firebase.init';
 
 const Brief = ({ course, onDown }) => {
+  const [users] = useAuthState(auth);
   const [activeLesson, setActiveLesson] = useState(null);
   const [courseContent, setCourseContent] = useState([]);
   const [isModalOpen1, setModalOpen1] = useState(false);
   const [uIdData, setIdData] = useState({});
+  const [playingLessonId, setPlayingLessonId] = useState(null);
+  const [watchedLessons, setWatchedLessons] = useState([]);
 
+  // Fetch course content
   useEffect(() => {
+    if (!course) return;
     fetch(`http://localhost:5000/classCourse/${course}`)
       .then(res => res.json())
-      .then(data => setCourseContent(data));
-  }, [courseContent, course]);
+      .then(data => setCourseContent(data))
+      .catch(err => console.error('Error fetching course:', err));
+  }, [course]);
 
-  const handleModal = id => {
+  // Fetch user's watched videos from DB
+  const fetchWatchedVideos = () => {
+    if (!users?.email) return;
+    fetch(`http://localhost:5000/user/${users.email}`)
+      .then(res => res.json())
+      .then(data => {
+        // Ensure all IDs are strings for comparison
+        const watched = (data?.watchedVideos || []).map(String);
+        setWatchedLessons(watched);
+      })
+      .catch(err => console.error('Error fetching user:', err));
+  };
+
+  useEffect(() => {
+    fetchWatchedVideos();
+  }, [users]);
+
+  // Handle video preview + mark as watched
+  const handleModal = async id => {
+    const idStr = String(id);
     onDown();
-    fetch(`http://localhost:5000/classId/${id}`)
+    setPlayingLessonId(idStr);
+
+    // Optimistically update watched lessons
+    if (!watchedLessons.includes(idStr)) {
+      setWatchedLessons(prev => [...prev, idStr]);
+    }
+
+    // Update DB
+    if (users?.email) {
+      try {
+        await fetch(`http://localhost:5000/updateWatched/${users.email}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ videoId: idStr }),
+        });
+      } catch (err) {
+        console.error('Error updating watched video:', err);
+      }
+    }
+
+    // Fetch video data for modal
+    fetch(`http://localhost:5000/classId/${idStr}`)
       .then(res => res.json())
       .then(data => {
         setIdData(data);
         setModalOpen1(true);
-      });
+      })
+      .catch(err => console.error('Error fetching video:', err));
   };
+
   const filteredCourses = courseContent.filter(
     course => course.content === 'Brief'
   );
+
   return (
     <div className="p-4">
       <ul className="space-y-4">
-        {filteredCourses.map((lesson, index) => (
-          <li
-            key={index}
-            className={`flex flex-col p-3 rounded-lg border ${
-              activeLesson === index
-                ? 'bg-blue-100 border-blue-500'
-                : 'bg-gray-50 border-gray-300'
-            }`}
-            onClick={() => setActiveLesson(index)}
-          >
-            <div className="grid grid-cols-12 gap-3  w-100% ">
-              <div className="col-span-1  text-xl text-slate-400 ">
-                <FaPlayCircle />
-              </div>
-              <div className="col-span-11">
-                <div className="flex items-center justify-between text-sm font-medium text-gray-800">
-                  <h1>
-                    {index + 1}.
-                    <span className="ml-1">{lesson?.classNames}</span>
-                  </h1>
+        {filteredCourses.map((lesson, index) => {
+          const idStr = String(lesson._id);
+          const isPlaying = playingLessonId === idStr;
+          const isWatched = watchedLessons.includes(idStr);
 
-                  {/* <span className="text-blue-500">{lesson.time}</span> */}
-                  <span className="text-blue-500">03:65</span>
+          return (
+            <li
+              key={idStr}
+              className={`flex flex-col p-3 rounded-lg border cursor-pointer transition duration-200 ${
+                activeLesson === index
+                  ? 'bg-blue-100 border-blue-500'
+                  : 'bg-gray-50 border-gray-300'
+              }`}
+              onClick={() => setActiveLesson(index)}
+            >
+              <div className="grid grid-cols-12 gap-3 w-full">
+                <div className="col-span-1 text-xl text-slate-400">
+                  <FaPlayCircle />
                 </div>
 
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => {
-                      handleModal(lesson?._id);
-                    }}
-                    className="text-xs text-blue-500 text-center hover:underline mt-2"
+                <div className="col-span-11">
+                  <div
+                    className={`flex items-center justify-between text-sm font-medium ${
+                      isPlaying
+                        ? 'text-blue-600'
+                        : isWatched
+                        ? 'text-green-600'
+                        : 'text-gray-800'
+                    }`}
                   >
-                    Preview
-                  </button>
+                    <h1>
+                      {index + 1}. <span>{lesson?.classNames}</span>
+                    </h1>
+                    <span className="text-blue-500">03:65</span>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => handleModal(idStr)}
+                      className="text-xs text-blue-500 hover:underline mt-2"
+                    >
+                      Preview
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
 
-      {/* Modal for Video */}
+      {/* Video Modal */}
       {isModalOpen1 && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg m-4 pt-0 w-full max-w-3xl">
-            <div className="flex justify-end  -mt-9 -mr-[25px] ">
-              <button
-                onClick={() => setModalOpen1(false)}
-                className="text-red-500  font-bold text-xl pt-[8px] bg-white z-10 rounded-full p-2  hover:bg-gray-100 transition-colors duration-300 "
-              >
-                <FaTimes />
-              </button>
-            </div>
+          <div className="bg-white rounded-lg m-4 pt-0 w-full max-w-3xl relative">
+            <button
+              onClick={() => {
+                setModalOpen1(false);
+                setPlayingLessonId(null);
+              }}
+              className="absolute top-3 right-3 text-red-500 font-bold text-xl bg-white z-10 rounded-full p-2 hover:bg-gray-100 transition-colors duration-300"
+            >
+              <FaTimes />
+            </button>
 
             <iframe
-              className="w-full h-64 md:h-96"
+              className="w-full h-64 md:h-96 rounded-b-lg"
               src={uIdData?.videoUrl}
-              // src="https://www.youtube.com/embed/GxmfcnU3feo?si=_x-11bTZ-Ey_UFbx"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
+              title="Brief Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             ></iframe>
           </div>
         </div>
@@ -100,3 +161,106 @@ const Brief = ({ course, onDown }) => {
 };
 
 export default Brief;
+
+// import React, { useEffect, useState } from 'react';
+// import { FaPlayCircle, FaTimes } from 'react-icons/fa';
+
+// const Brief = ({ course, onDown }) => {
+//   const [activeLesson, setActiveLesson] = useState(null);
+//   const [courseContent, setCourseContent] = useState([]);
+//   const [isModalOpen1, setModalOpen1] = useState(false);
+//   const [uIdData, setIdData] = useState({});
+
+//   useEffect(() => {
+//     fetch(`http://localhost:5000/classCourse/${course}`)
+//       .then(res => res.json())
+//       .then(data => setCourseContent(data));
+//   }, [courseContent, course]);
+
+//   const handleModal = id => {
+//     onDown();
+//     fetch(`http://localhost:5000/classId/${id}`)
+//       .then(res => res.json())
+//       .then(data => {
+//         setIdData(data);
+//         setModalOpen1(true);
+//       });
+//   };
+//   const filteredCourses = courseContent.filter(
+//     course => course.content === 'Brief'
+//   );
+//   return (
+//     <div className="p-4">
+//       <ul className="space-y-4">
+//         {filteredCourses.map((lesson, index) => (
+//           <li
+//             key={index}
+//             className={`flex flex-col p-3 rounded-lg border ${
+//               activeLesson === index
+//                 ? 'bg-blue-100 border-blue-500'
+//                 : 'bg-gray-50 border-gray-300'
+//             }`}
+//             onClick={() => setActiveLesson(index)}
+//           >
+//             <div className="grid grid-cols-12 gap-3  w-100% ">
+//               <div className="col-span-1  text-xl text-slate-400 ">
+//                 <FaPlayCircle />
+//               </div>
+//               <div className="col-span-11">
+//                 <div className="flex items-center justify-between text-sm font-medium text-gray-800">
+//                   <h1>
+//                     {index + 1}.
+//                     <span className="ml-1">{lesson?.classNames}</span>
+//                   </h1>
+
+//                   {/* <span className="text-blue-500">{lesson.time}</span> */}
+//                   <span className="text-blue-500">03:65</span>
+//                 </div>
+
+//                 <div className="flex justify-center">
+//                   <button
+//                     onClick={() => {
+//                       handleModal(lesson?._id);
+//                     }}
+//                     className="text-xs text-blue-500 text-center hover:underline mt-2"
+//                   >
+//                     Preview
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           </li>
+//         ))}
+//       </ul>
+
+//       {/* Modal for Video */}
+//       {isModalOpen1 && (
+//         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+//           <div className="bg-white rounded-lg m-4 pt-0 w-full max-w-3xl">
+//             <div className="flex justify-end  -mt-9 -mr-[25px] ">
+//               <button
+//                 onClick={() => setModalOpen1(false)}
+//                 className="text-red-500  font-bold text-xl pt-[8px] bg-white z-10 rounded-full p-2  hover:bg-gray-100 transition-colors duration-300 "
+//               >
+//                 <FaTimes />
+//               </button>
+//             </div>
+
+//             <iframe
+//               className="w-full h-64 md:h-96"
+//               src={uIdData?.videoUrl}
+//               // src="https://www.youtube.com/embed/GxmfcnU3feo?si=_x-11bTZ-Ey_UFbx"
+//               title="YouTube video player"
+//               frameborder="0"
+//               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+//               referrerpolicy="strict-origin-when-cross-origin"
+//               allowfullscreen
+//             ></iframe>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Brief;

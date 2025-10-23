@@ -16,6 +16,8 @@ const StudentScore = ({
     ? ((marks / result.totalQuestionMark) * 100).toFixed(2)
     : 0;
 
+  console.log(result);
+
   return (
     <tr className="border border-slate-500 text- font-semibold bg-slate-800 ">
       <th>{index}</th>
@@ -30,46 +32,36 @@ const StudentScore = ({
 
       <td>{percent}%</td>
 
-      {/* <td>
-        <button
-          onClick={() => handleQuestion(result._id)}
-          className="btn btn-xs btn-primary"
-        >
-          Question
-        </button>
-      </td> */}
+     
 
-   
-        <>
-          <td>
-            {result.requested ? (
-              <h1 className='btn btn-primary btn-xs'>Processing...</h1>
+      <>
+        <td>
+          {result.requested ? (
+            result.reCheck ? (
+              <h1>Done</h1>
             ) : (
-              <>
-                {' '}
-                {result.reCheck ? (
-                  <h1>Done</h1>
-                ) : (
-                  <button
-                    onClick={() => handleRequest(result._id)}
-                    className="btn btn-xs btn-primary"
-                  >
-                    Requested
-                  </button>
-                )}
-              </>
-            )}
-          </td>
-          <td>
+              <h1 className="btn btn-primary btn-xs">Processing...</h1>
+            )
+          ) : result.reCheck ? (
+            <h1>Done</h1>
+          ) : (
             <button
-              onClick={() => handleRemove(result._id)}
-              className="btn btn-xs btn-accent"
+              onClick={() => handleRequest(result._id)}
+              className="btn btn-xs btn-primary"
             >
-              Remove
+              Requested
             </button>
-          </td>
-        </>
-   
+          )}
+        </td>
+        <td>
+          <button
+            onClick={() => handleRemove(result._id)}
+            className="btn btn-xs btn-accent"
+          >
+            Remove
+          </button>
+        </td>
+      </>
     </tr>
   );
 };
