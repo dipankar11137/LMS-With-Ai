@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiPhoneOutgoing } from 'react-icons/bi';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -65,7 +65,7 @@ const MobilePayment = () => {
             <div className="mx-[50px] w-[400] h-[100px] shadow-black shadow-md mt-5 text-white text-lg pt-2 pl-4">
               <h1>Mobile App Development</h1>
               <h1>Invoice No : A234rDefE</h1>
-              <h1>Amount : $269 </h1>
+              <h1>Amount : ৳269 </h1>
             </div>
             <div className="text-center text-white mt-10 text-xl">
               <div>

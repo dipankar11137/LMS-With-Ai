@@ -32,8 +32,6 @@ const StudentScore = ({
 
       <td>{percent}%</td>
 
-     
-
       <>
         <td>
           {result.requested ? (
@@ -53,14 +51,16 @@ const StudentScore = ({
             </button>
           )}
         </td>
-        <td>
-          <button
-            onClick={() => handleRemove(result._id)}
-            className="btn btn-xs btn-accent"
-          >
-            Remove
-          </button>
-        </td>
+        {user.email === 'abc@def.com' && (
+          <td>
+            <button
+              onClick={() => handleRemove(result._id)}
+              className="btn btn-xs btn-accent"
+            >
+              Remove
+            </button>
+          </td>
+        )}
       </>
     </tr>
   );

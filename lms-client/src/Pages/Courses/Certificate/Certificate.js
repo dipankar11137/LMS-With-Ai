@@ -46,13 +46,13 @@ const Certificate = () => {
             </div>
           </div>
           {/* QR Code */}
-          <div className="w-20 h-20 border border-gray-300 p-2">
+          {/* <div className="w-20 h-20 border border-gray-300 p-2">
             <img
               src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://lms.uiu.ac.bd/user/${users?.email}`}
               alt="QR Code"
               className="w-full h-full object-contain"
             />
-          </div>
+          </div> */}
         </div>
 
         {/* Certificate Title */}

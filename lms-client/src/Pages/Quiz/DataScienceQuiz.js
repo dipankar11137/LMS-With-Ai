@@ -157,7 +157,7 @@ const DataScienceQuiz = () => {
           <div className="bg-neutral text-slate-300 p-10 text-2xl rounded-lg shadow-xl mt-20">
             <h1>Your Score : {result} </h1>
             <h1>Name : {user?.name}</h1>
-            <h1>Course : Free Quiz</h1>
+            <h1>Course : Free Quiz </h1>
             <div className="mt-7 text-sm underline text-end text-secondary">
               <Link to="/">Go to Home</Link>
             </div>

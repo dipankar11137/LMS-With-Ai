@@ -2,6 +2,7 @@ import { Camera, Check, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Tesseract from 'tesseract.js';
 import auth from '../../../firebase.init';
 
@@ -150,7 +151,8 @@ const Question = ({subject}) => {
 
   // ✅ Handle submission
   const handleSubmit = async () => {
-      navigator('/')
+    
+      // navigator('/studentScore');
     if (Object.keys(uploads).length === 0)
       return alert('Please answer at least one question.');
 
@@ -219,7 +221,8 @@ const Question = ({subject}) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateQuestionAndAnswers),
       });
-      alert('✅  Successfully Submit Your Answers.');
+      toast('✅  Successfully Submit Your Answers.');
+      setSubmitting(true);
     } catch (error) {
       console.error('❌ Evaluation failed:', error);
       alert('❌ Failed to evaluate answers.');
@@ -349,7 +352,7 @@ const Question = ({subject}) => {
       )}
 
       {/* ✅ Result Section */}
-      {/* {uploadedImages.length > 0 && (
+      {uploadedImages.length > 0 && (
         <div className="mt-10 bg-gray-50 p-6 rounded-xl border">
           <h2 className="text-xl font-semibold mb-4">Evaluated Answers</h2>
           <ul className="space-y-2">
@@ -384,7 +387,7 @@ const Question = ({subject}) => {
             {questions.reduce((a, q) => a + Number(q.marks), 0)}
           </p>
         </div>
-      )} */}
+      )}
     </div>
   );
 };

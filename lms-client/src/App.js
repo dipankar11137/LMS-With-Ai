@@ -42,6 +42,7 @@ import DigitalPayment from "./Pages/Home/Home/Payment/DigitalPayment";
 import FinancePayment from "./Pages/Home/Home/Payment/FinancePayment";
 import GraphicPayment from "./Pages/Home/Home/Payment/GraphicPayment";
 import MobilePayment from "./Pages/Home/Home/Payment/MobilePayment";
+import NagadPayment from "./Pages/Home/Home/Payment/NagadPayment";
 import WebPayment from "./Pages/Home/Home/Payment/WebPayment";
 import RequireAuth from "./Pages/Login/RequireAUth";
 import About from "./Pages/Page/About/About";
@@ -141,6 +142,7 @@ function App() {
         <Route path="/mobilePayment/:id" element={<MobilePayment />}></Route>
         <Route path="/digitalPayment/:id" element={<DigitalPayment />}></Route>
         <Route path="/financePayment/:id" element={<FinancePayment />}></Route>
+        <Route path="/nagadPayment" element={<NagadPayment />}></Route>
 
         <Route path="/course/quizScore" element={<Scores />}></Route>
         <Route path="/createAccount" element={<CreateAccount />}></Route>

@@ -134,7 +134,7 @@ const StudentScores = () => {
               <th>Marks Given</th>
               <th>Percent</th>
               <th>ReCheck</th>
-               <th>Remove</th>
+              {user.email === 'abc@def.com' && <th>Remove</th>}
             </tr>
           </thead>
           <tbody>
