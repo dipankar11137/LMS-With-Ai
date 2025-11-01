@@ -399,6 +399,7 @@ async function run() {
       res.send(result);
     });
 
+    
     //  watch video click
     // PUT /updateWatched/:email
     app.put('/updateWatched/:email', async (req, res) => {
@@ -433,26 +434,7 @@ async function run() {
       res.send(result);
     });
 
-    // the brif
-    app.put('/updateWatched/:email', async (req, res) => {
-      const email = req.params.email;
-      const { videoId } = req.body;
-
-      if (!email || !videoId)
-        return res.status(400).send({ error: 'Missing email or videoId' });
-
-      try {
-        const result = await userCollection.findOneAndUpdate(
-          { email },
-          { $addToSet: { watchedVideos: videoId } },
-          { upsert: true, returnDocument: 'after' }
-        );
-        res.send(result.value);
-      } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: 'Update failed' });
-      }
-    });
+    
 
    
 
